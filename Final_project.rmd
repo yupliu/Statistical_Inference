@@ -1,0 +1,41 @@
+---
+gtitle: "Statistical Inference Course Project"
+author: "Pulan Yu"
+date: "2/24/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Part 1 Simulation
+
+In this section, the exponential distribution in R will be investigated and compared with the Central Limit Theorem. 
+
+The exponential distribution will be simulated in R with rexp(n, lambda) where lambda is the rate parameter. The mean of exponential distribution is 1/lambda and the standard deviation is also 1/lambda. lambda was set to be 0.2 for all of the simulations. 
+
+The following shows a thousand simulation with R
+
+```{r}
+    lambda = 0.2
+    n = 1000
+    hist(rexp(n,lambda))
+```
+
+The distribution of averages of 40 exponentials can be ploted by 
+
+```{r}
+    mns <- NULL
+    for (i in 1:1000){
+      mns <- c(mns,mean(rexp(40,lambda)))
+    }
+    hist(mns)
+    
+    library(ggplot2)
+    mns_data <- as.data.frame(mns)
+    p<-ggplot(data=mns_data, aes(x=mns)) + 
+    geom_histogram(color="black", fill="red",binwidth = 0.5)
+    p
+    mean(mns)
+```
