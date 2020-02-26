@@ -30,12 +30,47 @@ The distribution of averages of 40 exponentials can be ploted by
     for (i in 1:1000){
       mns <- c(mns,mean(rexp(40,lambda)))
     }
-    hist(mns)
+    mn <- mean(mns)
+    sd <- sd(mns)
     
-    library(ggplot2)
-    mns_data <- as.data.frame(mns)
-    p<-ggplot(data=mns_data, aes(x=mns)) + 
-    geom_histogram(color="black", fill="red",binwidth = 0.5)
-    p
-    mean(mns)
+    hist(mns,freq = FALSE)
+    curve(dnorm(x,mean=mn,sd=sd),col="darkblue", lwd=2, add=TRUE)
+    abline(v = mn, col="blue", lwd=3)
+    text(mn+0.3,0.05,"mean")
+    abline(v = mn-sd, col="red", lwd=3)
+    text(mn-sd,0.5,"mean-sd")
+    abline(v = mn+sd, col="red", lwd=3)
+    text(mn+sd,0.5,"mean+sd")
+```
+```{r echo=FALSE}
+    #library(ggplot2)
+    #mns_data <- as.data.frame(mns)
+    #p<-ggplot(data=mns_data, aes(x=mns)) + 
+    #geom_histogram(color="black", fill="red",binwidth = 0.5)
+    #p + geom_vline(size=3,color="blue",xintercept = mean(mns))
+```
+
+<b>The theoretical mean is 1/lambda which is 5</b>, and the <b>sample mean</b> is
+
+```{r}
+   mean(mns)
+```
+which is <b><font color='blue'>the thick blue bar in the above figure</font></b>.
+
+The theoretical standard deviation is also 1/lambda which is 5, so <b>the theoretical variance is 25</b>. The sample variance and standard deviation are
+
+```{r}
+  var(mns)
+  sd(mns)
+```
+respectively.
+
+<b><font color='red'>The standard deviation is showed in two red lines with the left being mean-sd and right being mean+sd</font></b>.
+
+The distribution is closely to a gaussion distribution with which can be seen from the figure since the histogram overlay with the gaussion distribution well.
+
+## Part 2: Basic Inferential Data Analysis
+
+```{r ToothGrowth}
+  boxplot(ToothGrowth$dose,ToothGrowth$supp)
 ```
