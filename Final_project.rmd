@@ -71,6 +71,19 @@ The distribution is closely to a gaussion distribution with which can be seen fr
 
 ## Part 2: Basic Inferential Data Analysis
 
+ToothGrowth dataset has three columns: len, supp and dos. The following code show the information about the three columns.
+
 ```{r ToothGrowth}
-  boxplot(ToothGrowth$dose,ToothGrowth$supp)
+  summary(ToothGrowth)
+  boxplot(ToothGrowth)
+```
+
+Supp has two values: VC and OJ respectively. The dose has five levels from 0.5,1.0,to 2.0.
+
+```{r}
+  vc <- ToothGrowth[ToothGrowth$supp =='VC',]
+  boxplot(vc$len~vc$dos,col='red',xlab = 'dos',ylab='len')
+  oj <- ToothGrowth[ToothGrowth$supp =='OJ',]
+  boxplot(oj$len~oj$dos,col='blue',add = TRUE)
+  #hist(vc$len~vc$dos,col='red')
 ```
