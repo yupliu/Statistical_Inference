@@ -80,10 +80,69 @@ ToothGrowth dataset has three columns: len, supp and dos. The following code sho
 
 Supp has two values: VC and OJ respectively. The dose has five levels from 0.5,1.0,to 2.0.
 
-```{r}
+```{r cache=TRUE}
   vc <- ToothGrowth[ToothGrowth$supp =='VC',]
   boxplot(vc$len~vc$dos,col='red',xlab = 'dos',ylab='len')
   oj <- ToothGrowth[ToothGrowth$supp =='OJ',]
   boxplot(oj$len~oj$dos,col='blue',add = TRUE)
   #hist(vc$len~vc$dos,col='red')
+  
 ```
+
+Since there are two variables: supp and dose, firstly, the effect of dose is investigated. 
+
+1. the 0.5 level
+
+```{r}
+  vchalf <- vc[vc$dose==0.5,]
+  ojhalf <- oj[oj$dose==0.5,]
+  t.test(vchalf$len,ojhalf$len,var.equal=TRUE)
+```
+
+2. the 1.0 level
+
+```{r}
+  vcone <- vc[vc$dose==1.0,]
+  ojone <- oj[oj$dose==1.0,]
+  t.test(vcone$len,ojone$len,var.equal=TRUE)
+```
+
+3. the 2.0 level
+
+```{r}
+  vctwo <- vc[vc$dose==2.0,]
+  ojtwo <- oj[oj$dose==2.0,]
+  t.test(vctwo$len,ojtwo$len,var.equal=TRUE)
+```
+
+Then the effect of dose is investigated.
+
+For VC supply
+
+```{r}
+  vchalf <- vc[vc$dose==0.5,]
+  vcone <- vc[vc$dose==1.0,]
+  vctwo <- vc[vc$dose==2.0,]
+  t.test(vchalf$len,vcone$len,var.equal=TRUE)
+  t.test(vchalf$len,vctwo$len,var.equal=TRUE)
+  t.test(vctwo$len,vcone$len,var.equal=TRUE)
+```
+
+For OJ supply
+
+```{r}
+  ojhalf <- oj[oj$dose==0.5,]
+  ojone <- oj[oj$dose==1.0,]
+  ojtwo <- oj[oj$dose==2.0,]
+  t.test(ojhalf$len,ojone$len,var.equal=TRUE)
+  t.test(ojhalf$len,ojtwo$len,var.equal=TRUE)
+  t.test(ojtwo$len,ojone$len,var.equal=TRUE)
+```
+
+<h2>Conclusions:</h2>
+For both OJ and VC supply, the level of difference has effect on the tooth length since the p-value of all t-test are less then 0.05 at 95% confidence level. The null hypothesis is rejected, the level has effect on the length.
+
+For the same level, at low dose level 0.5 and 1.0, the supply has effect on the tooth length. Since the p-value of 0.5 and 1.0 level are 0.005304 and 0.0007807 respectively, so the null hypothesis is rejected and supply has impact on the length. For 2.0 level, the p-value is 0.9637, the null hypothese is failed to be rejected at 95% confidence level. It suggests that at high dose, the supply may not have statistical significant impact on tooth length. 
+
+
+
