@@ -3,8 +3,8 @@ author: "Pulan Yu"
 date: "2/24/2020"
 gtitle: Statistical Inference Course Project Part 1
 output:
-  word_document: default
   pdf_document: default
+  word_document: default
   html_document: default
 ---
 
