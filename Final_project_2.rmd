@@ -1,0 +1,123 @@
+---
+title: "Statistical Inference Course Project Part 2"
+author: "Pulan Yu"
+date: "2/29/2020"
+output:
+  word_document: default
+  pdf_document: default
+---
+
+## Part 2: Basic Inferential Data Analysis
+
+ToothGrowth dataset has three columns: len, supp and dos. The following code show the information about the three columns.
+
+```{r ToothGrowth}
+  summary(ToothGrowth)
+  boxplot(ToothGrowth)
+```
+
+The supp is a factor with two levels: VC and OJ. The dose has three values: 0.5, 1.0 and 2.0. 
+
+The following code will do an exploeratory analysis
+
+```{R}
+  
+  vc <- ToothGrowth[ToothGrowth$supp =='VC',]
+  vchalf <- vc[vc$dose==0.5,]
+  vcone <- vc[vc$dose==1.0,]
+  vctwo <- vc[vc$dose==2.0,]
+  par(mfrow=c(2,3))
+  hist(vchalf$len)
+  hist(vcone$len)
+  sd(vcone$len)
+  hist(vctwo$len)
+  oj <- ToothGrowth[ToothGrowth$supp =='OJ',]
+  ojhalf <- oj[oj$dose==0.5,]
+  ojone <- oj[oj$dose==1.0,]
+  ojtwo <- oj[oj$dose==2.0,]
+  hist(ojhalf$len)
+  hist(ojone$len)
+  hist(ojtwo$len)
+  
+  mean(vchalf$len)
+  sd(vchalf$len)
+  mean(vcone$len)
+  sd(vcone$len)
+  mean(vctwo$len)
+  sd(vctwo$len)
+  mean(ojhalf$len)
+  sd(ojhalf$len)
+  mean(ojone$len)
+  sd(ojone$len)
+  mean(ojtwo$len)
+  sd(ojtwo$len)
+```
+
+
+Supp has two values: VC and OJ respectively. The dose has five levels from 0.5,1.0,to 2.0.
+
+```{r cache=TRUE}
+  par(mfrow=c(1,2))
+  vc <- ToothGrowth[ToothGrowth$supp =='VC',]
+  boxplot(vc$len~vc$dos,col=(c("red","gold","darkgreen")),xlab = 'dos',ylab='len',main="VC")
+  oj <- ToothGrowth[ToothGrowth$supp =='OJ',]
+  boxplot(oj$len~oj$dos,col=(c("red","gold","darkgreen")),xlab='dos',ylab='len',main='OJ')
+ 
+  
+```
+
+Since there are two variables: supp and dose, firstly, the effect of dose is investigated. 
+
+1. the 0.5 level
+
+```{r}
+  vchalf <- vc[vc$dose==0.5,]
+  ojhalf <- oj[oj$dose==0.5,]
+  t.test(vchalf$len,ojhalf$len,var.equal=TRUE)
+```
+
+2. the 1.0 level
+
+```{r}
+  vcone <- vc[vc$dose==1.0,]
+  ojone <- oj[oj$dose==1.0,]
+  t.test(vcone$len,ojone$len,var.equal=TRUE)
+```
+
+3. the 2.0 level
+
+```{r}
+  vctwo <- vc[vc$dose==2.0,]
+  ojtwo <- oj[oj$dose==2.0,]
+  t.test(vctwo$len,ojtwo$len,var.equal=TRUE)
+```
+
+Then the effect of dose is investigated.
+
+For VC supply
+
+```{r}
+  vchalf <- vc[vc$dose==0.5,]
+  vcone <- vc[vc$dose==1.0,]
+  vctwo <- vc[vc$dose==2.0,]
+  t.test(vchalf$len,vcone$len,var.equal=TRUE)
+  t.test(vchalf$len,vctwo$len,var.equal=TRUE)
+  t.test(vctwo$len,vcone$len,var.equal=TRUE)
+```
+
+For OJ supply
+
+```{r}
+  ojhalf <- oj[oj$dose==0.5,]
+  ojone <- oj[oj$dose==1.0,]
+  ojtwo <- oj[oj$dose==2.0,]
+  t.test(ojhalf$len,ojone$len,var.equal=TRUE)
+  t.test(ojhalf$len,ojtwo$len,var.equal=TRUE)
+  t.test(ojtwo$len,ojone$len,var.equal=TRUE)
+```
+
+<h2>Conclusions:</h2>
+For both OJ and VC supply, the level of difference has effect on the tooth length since the p-value of all t-test are less then 0.05 at 95% confidence level. The null hypothesis is rejected, the level has effect on the length and higher does is better for tooth growth.
+
+For the same level, at low dose level 0.5 and 1.0, the supply has effect on the tooth length and OJ is better for tooth growth. Since the p-value of 0.5 and 1.0 level are 0.005304 and 0.0007807 respectively, so the null hypothesis is rejected and supply has impact on the length. For 2.0 level, the p-value is 0.9637, the null hypothese is failed to be rejected at 95% confidence level. It suggests that at high dose, the supply may not have statistical significant impact on tooth length. 
+
